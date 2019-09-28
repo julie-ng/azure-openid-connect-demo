@@ -1,0 +1,77 @@
+trigger:
+  - master
+  - feat/*
+
+variables:
+  azureSubscriptionEndpoint: $(service-connection-name)
+  azureContainerRegistry: $(container-registry-host)
+  registryName: $(azureContainerRegistry)/$(Build.Repository.Name)
+  imageTag: $(registryName):$(Build.BuildId)-$(Build.SourceVersion)
+  appName: $(app-name)
+
+stages:
+- stage: Tests
+  displayName: 'Test (Node.js)'
+  jobs:
+    - job: Audit
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - script: npm audit
+        displayName: Audit Dependencies
+        continueOnError: true
+
+    - job: Linter
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - script: npm ci && npm run lint
+        displayName: Lint Code
+
+    - job: UnitTests
+      displayName: Unit Tests
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - script: npm ci && npm run test
+        displayName: Run Tests
+
+# ----------------------------
+# Docker Image: Build and Push
+# ----------------------------
+
+- stage: BuildImage
+  displayName: 'Build (Docker)'
+  jobs:
+    - job: build_and_push_image
+      displayName: Build and Push Image
+      steps:
+
+      - script: docker build --tag $(imageTag) .
+        displayName: 'Docker: Build and tag image'
+
+      - task: Docker@1
+        displayName: 'Push an image'
+        inputs:
+          azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+          azureContainerRegistry: $(azureContainerRegistry)
+          imageName: $(imageTag)
+          command: push
+
+# ----------------------------
+# Deploy to Azure App Services
+# ----------------------------
+
+- stage: DeployImage
+  displayName: Deploy
+  jobs:
+  - job: deploy_image
+    displayName: 'Deploy Image (master)'
+    steps:
+    - task: AzureWebAppContainer@1
+      displayName: Deploy container as Azure Web App
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) # (master branch and succesful builds only)
+      inputs:
+        appName: $(appName)
+        azureSubscription: $(azureSubscriptionEndpoint)
+        imageName: $(imageTag)
