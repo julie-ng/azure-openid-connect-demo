@@ -20,15 +20,18 @@
   "dependencies": {
     "applicationinsights": "^1.4.2",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "express": "^4.16.3",
-    "express-handlebars": "^3.1.0",
-    "handlebars": ">=4.3.0",
-    "hbs": "^4.0.4",
+    "express-session": "^1.16.2",
+    "hbs": "^4.0.5",
     "helmet": "^3.16.0",
     "http": "0.0.0",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-azure-ad": "^4.1.0"
   },
   "devDependencies": {
+    "dotenv": "^8.1.0",
     "eslint": "^4.18.2",
     "jest": "^24.8.0",
     "mem": ">=4.0.0",
