@@ -15,7 +15,7 @@ const COOKIE_IV_1 = process.env.COOKIE_IV_1 || 'changeme'
 const COOKIE_KEY_2 = process.env.COOKIE_KEY_2 || 'changeme'
 const COOKIE_IV_2 = process.env.COOKIE_IV_2 || 'changeme'
 
-exports.creds = {
+module.exports = {
   // Required
   identityMetadata: `https://login.microsoftonline.com/${TENANT_ID}.onmicrosoft.com/v2.0/.well-known/openid-configuration`,
   // or equivalently: 'https://login.microsoftonline.com/<tenant_guid>/v2.0/.well-known/openid-configuration'
@@ -84,18 +84,18 @@ exports.creds = {
 
   // Optional. The clock skew allowed in token validation, the default value is 300 seconds.
   clockSkew: null,
-};
+}
 
 // The url you need to go to destroy the session with AAD
-exports.destroySessionUrl = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${LOGOUT_REDIRECT_URI}`;
+exports.destroySessionUrl = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${LOGOUT_REDIRECT_URI}`
 
 // If you want to use the mongoDB session store for session middleware, set to true; otherwise we will use the default
 // session store provided by express-session.
 // Note that the default session store is designed for development purpose only.
-exports.useMongoDBSessionStore = USE_MONGO;
+exports.useMongoDBSessionStore = USE_MONGO
 
 // If you want to use mongoDB, provide the uri here for the database.
-exports.databaseUri = MONGO_DB_URI;
+exports.databaseUri = MONGO_DB_URI
 
 // How long you want to keep session in mongoDB.
-exports.mongoDBSessionMaxAge = 24 * 60 * 60;  // 1 day (unit is second)
+exports.mongoDBSessionMaxAge = 24 * 60 * 60  // 1 day (unit is second)
