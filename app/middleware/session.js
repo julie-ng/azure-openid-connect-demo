@@ -1,35 +1,59 @@
 'use strict'
 
 const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
-const mongoose = require('mongoose')
-const config = require('./../passport/config')
+const redis = require('redis')
+const RedisStore = require('connect-redis')(session)
 
-// some session code here is totally outdated
+const REDIS_HOST = process.env.REDIS_HOST || ''
+const REDIS_PORT = process.env.REDIS_PORT || 6379
+const SESSION_SECRET = process.env.SESSION_SECRET || 'keyboard cat'
 
-module.exports = function (req, res, next) {
-	if (config.useMongoDBSessionStore) {
-		dbSession()
-	} else {
-		localSession()
-	}
+const options = {
+	secret: SESSION_SECRET,
+	resave: true,
+	saveUninitialized: false
 }
 
-function dbSession () {
-	return session({
-    secret: 'secret',
-    cookie: {maxAge: config.mongoDBSessionMaxAge * 1000},
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      clear_interval: config.mongoDBSessionMaxAge
-    })
-  })
-}
+// let options = Object.assign({}, defaults)
 
-function localSession () {
-	return session({
-		secret: 'keyboard cat',
-		resave: true,
-		saveUninitialized: false
+if (REDIS_HOST !== '') {
+	const client = redis.createClient({
+		host: REDIS_HOST,
+		port: REDIS_PORT
 	})
+	options.store = new RedisStore({ client: client })
+
+	// Object.assign(defaults, {
+	// 	store: new RedisStore({ client: client })
+	// })
 }
+
+module.exports = options
+
+	// console.log('*********** options');
+	// console.log(options);
+
+
+
+
+
+
+// module.exports = function (req, res, next) {
+// 	let options = Object.assign({}, defaults)
+
+// 	if (REDIS_HOST !== '') {
+// 		const client = redis.createClient({
+// 			host: REDIS_HOST,
+// 			port: REDIS_PORT
+// 		})
+// 		options.store = new RedisStore({ client })
+// 	}
+
+// 	console.log('*********** options');
+// 	console.log(options);
+
+
+
+// 	return session(options)
+// 	// next()
+// }

@@ -22,17 +22,35 @@ const app = express()
 // const monitor = require('./middleware/monitor')
 // const forceHttps = require('./middleware/force-https')
 
+// const session = require('express-session')
+// const redis = require('redis')
+
+// const RedisStore = require('connect-redis')(session)
+// const redisClient = redis.createClient()
+// const sessionOpts = {
+//   store: new RedisStore({ client: redisClient }),
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: false
+// }
+
+
+
 // app.use(forceHttps)
 app.use(helmet())
 app.use(logger('dev'))
 app.use(methodOverride())
 app.use(cookieParser())
-// app.use(require('./middleware/session'))
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: false
-}))
+
+const sessionOpts = require('./middleware/session')
+app.use(session(sessionOpts))
+
+// app.use(session(sessionOpts))
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: true,
+//   saveUninitialized: false
+// }))
 // app.use(monitor)
 app.use(bodyParser.urlencoded({ extended : true }))
 
