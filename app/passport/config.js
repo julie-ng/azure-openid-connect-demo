@@ -17,7 +17,9 @@ const COOKIE_IV_2 = process.env.COOKIE_IV_2 || 'changeme'
 
 module.exports = {
   // Required
-  identityMetadata: `https://login.microsoftonline.com/${TENANT_ID}.onmicrosoft.com/v2.0/.well-known/openid-configuration`,
+  // identityMetadata: `https://login.microsoftonline.com/${TENANT_ID}.onmicrosoft.com/v2.0/.well-known/openid-configuration`,
+  // identityMetadata: 'https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration',
+  identityMetadata: 'https://login.microsoftonline.com/430344f7-8876-4aa6-a2bd-a0e59401cc37/v2.0/.well-known/openid-configuration',
   // or equivalently: 'https://login.microsoftonline.com/<tenant_guid>/v2.0/.well-known/openid-configuration'
   //
   // or you can use the common endpoint
