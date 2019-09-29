@@ -4,7 +4,7 @@ const passport = require('passport')
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
 const oidcConfig = require('./config')
 
-console.log(oidcConfig)
+// console.log(oidcConfig)
 
 
 // array to hold logged in users
