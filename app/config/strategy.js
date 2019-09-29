@@ -21,7 +21,11 @@ function findByOid (oid, fn) {
 	return fn(null, null)
 }
 
-function verify (iss, sub, profile, accessToken, refreshToken, done) {
+// function verify (iss, sub, profile, accessToken, refreshToken, done) {
+function verify (iss, sub, profile, jwtClaims, access_token, refresh_token, params, done) {
+	console.log('jwtClaims', jwtClaims)
+
+
 	if (!profile.oid) {
 		return done(new Error("No oid found"), null);
 	}

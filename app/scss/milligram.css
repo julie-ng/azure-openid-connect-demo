@@ -20,7 +20,7 @@
  body {
 	 color: var(--body-weight);
 	 font-family: var(--body-font);
-	 font-size: 1.6em;
+	 font-size: 16px;
 	 font-weight: var(--body-weight);
 	 letter-spacing: .01em;
 	 line-height: 1.6;
@@ -49,14 +49,14 @@
 	 cursor: pointer;
 	 display: inline-block;
 	 font-size: 1.1rem;
-	 font-weight: 700;
+	 /* font-weight: 700; */
 	 height: 3.8rem;
-	 letter-spacing: .1rem;
+	 /* letter-spacing: .1rem; */
 	 line-height: 3.8rem;
-	 padding: 0 3.0rem;
+	 padding: 0 2.0rem;
 	 text-align: center;
 	 text-decoration: none;
-	 text-transform: uppercase;
+	 /* text-transform: uppercase; */
 	 white-space: nowrap;
  }
 

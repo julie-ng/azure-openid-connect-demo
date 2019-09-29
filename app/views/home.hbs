@@ -3,6 +3,14 @@
 	<a href="/profile">Profile</a></br>
 	<a href="/logout">Log Out</a>
 {{ else }}
-	<h2>Welcome! Please log in.</h2>
-	<a href="/login">Log In</a>
+
+	<div class="card" style="width: 25rem;">
+		<div class="card-body">
+			<h3 class="card-title">Please Login</h3>
+			<p class="card-text">This is a demo fo how to use OpenID Connect with Azure AD. To login, you will be redirected to Azure Active Directory.</p>
+			<a class="btn btn-lg btn-primary" href="/login">Login &rarr;</a>
+		</div>
+	</div>
+
+
 {{/if}}
