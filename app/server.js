@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Loads pre-defined environment variables in `.env`.
+ * See `.env.sample` as a template
+ */
 if (process.env.NODE_ENV === 'development') {
 	require('dotenv').config()
 }
