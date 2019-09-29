@@ -3,6 +3,7 @@
 // eslint-disable-next-line no-unused-vars
 const hbs  = require('express-handlebars')
 const express = require('express')
+const session = require('express-session')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const helmet = require('helmet')
@@ -26,7 +27,12 @@ app.use(helmet())
 app.use(logger('dev'))
 app.use(methodOverride())
 app.use(cookieParser())
-app.use(require('./middleware/session'))
+// app.use(require('./middleware/session'))
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: false
+}))
 // app.use(monitor)
 app.use(bodyParser.urlencoded({ extended : true }))
 

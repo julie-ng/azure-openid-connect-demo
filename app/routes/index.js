@@ -6,6 +6,5 @@ module.exports = {
 	login: require('./login.route'),
 	logout: require('./logout.route'),
 	openIDReturn: require('./openid-return.route'),
-	home: require('./home.route'),
 	healthcheck: require('./healthcheck.route'),
 }

@@ -1,5 +1,7 @@
 'use strict'
 
+const passport = require('passport')
+
 // More about state param, see:
 // https://www.oauth.com/oauth2-servers/server-side-apps/authorization-code/
 function state () {

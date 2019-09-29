@@ -5,10 +5,14 @@ const MongoStore = require('connect-mongo')(session)
 const mongoose = require('mongoose')
 const config = require('./../passport/config')
 
+// some session code here is totally outdated
+
 module.exports = function (req, res, next) {
-	config.useMongoDBSessionStore
-		? dbSession()
-		: localSession()
+	if (config.useMongoDBSessionStore) {
+		dbSession()
+	} else {
+		localSession()
+	}
 }
 
 function dbSession () {

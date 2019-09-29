@@ -1,5 +1,7 @@
 'use strict'
 
+const passport = require('passport')
+
 function cb (req, res, next) {
 	const opts = {
 		response: res,
