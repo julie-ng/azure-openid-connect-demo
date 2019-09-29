@@ -9,7 +9,7 @@ const COOKIE_IV_1   = process.env.COOKIE_IV_1 || 'changeme'
 const COOKIE_KEY_2  = process.env.COOKIE_KEY_2 || 'changeme'
 const COOKIE_IV_2   = process.env.COOKIE_IV_2 || 'changeme'
 
-const azureEndpoints = require('./azure-endpoints')
+const azureEndpoints = require('./endpoints')
 
 module.exports = {
   identityMetadata: azureEndpoints.identityMetadata,

@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended : true }))
 // Setup Passport.js
 // ----------------------------
 
-require('./passport/strategy').setup()
+require('./config/strategy').setup()
 app.use(passport.initialize())
 app.use(passport.session())
 

@@ -2,7 +2,7 @@
 
 const passport = require('passport')
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const oidcConfig = require('./config')
+const oidcConfig = require('./oidc')
 
 // console.log(oidcConfig)
 
