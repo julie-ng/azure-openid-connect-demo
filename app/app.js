@@ -11,9 +11,7 @@ const passport = require('passport')
 const path = require('path')
 const methodOverride = require('method-override')
 
-// // const config = require('./passport/config') // temp
 const app = express()
-
 
 // Middleware
 // ----------------------------

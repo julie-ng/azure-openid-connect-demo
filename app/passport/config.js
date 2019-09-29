@@ -1,30 +1,18 @@
 'use strict'
 
-const TENANT_ID = process.env.TENANT_ID || ''
-const CLIENT_ID = process.env.CLIENT_ID || ''
+const CLIENT_ID     = process.env.CLIENT_ID || ''
 const CLIENT_SECRET = process.env.CLIENT_SECRET || ''
-const APP_ID = process.env.APP_ID || ''
+const APP_ID        = process.env.APP_ID || ''
 
-const LOGOUT_REDIRECT_URI = process.env.LOGOUT_REDIRECT_URI || ''
-const LOGIN_REDIRECT_URI = process.env.LOGIN_REDIRECT_URI || ''
+const COOKIE_KEY_1  = process.env.COOKIE_KEY_1 || 'changeme'
+const COOKIE_IV_1   = process.env.COOKIE_IV_1 || 'changeme'
+const COOKIE_KEY_2  = process.env.COOKIE_KEY_2 || 'changeme'
+const COOKIE_IV_2   = process.env.COOKIE_IV_2 || 'changeme'
 
-const USE_MONGO = process.env.USE_MONGO || false
-const MONGO_DB_URI = process.env.MONGO_DB_URI || 'mongodb://localhost/OIDCStrategy'
-const COOKIE_KEY_1 = process.env.COOKIE_KEY_1 || 'changeme'
-const COOKIE_IV_1 = process.env.COOKIE_IV_1 || 'changeme'
-const COOKIE_KEY_2 = process.env.COOKIE_KEY_2 || 'changeme'
-const COOKIE_IV_2 = process.env.COOKIE_IV_2 || 'changeme'
+const azureEndpoints = require('./azure-endpoints')
 
 module.exports = {
-  // Required
-  // identityMetadata: `https://login.microsoftonline.com/${TENANT_ID}.onmicrosoft.com/v2.0/.well-known/openid-configuration`,
-  // identityMetadata: 'https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration',
-  identityMetadata: 'https://login.microsoftonline.com/430344f7-8876-4aa6-a2bd-a0e59401cc37/v2.0/.well-known/openid-configuration',
-  // or equivalently: 'https://login.microsoftonline.com/<tenant_guid>/v2.0/.well-known/openid-configuration'
-  //
-  // or you can use the common endpoint
-  // 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration'
-  // To use the common endpoint, you have to either turn `validateIssuer` off, or provide the `issuer` value.
+  identityMetadata: azureEndpoints.identityMetadata,
 
   // Required, the client ID of your app in AAD
   clientID: CLIENT_ID,
@@ -37,7 +25,7 @@ module.exports = {
   responseMode: 'form_post',
 
   // Required, the reply URL registered in AAD for your app
-  redirectUrl: LOGIN_REDIRECT_URI,
+  redirectUrl: azureEndpoints.redirectUrl, // LOGIN_REDIRECT_URI,
 
   // Required if we use http for redirectUrl
   allowHttpForRedirectUrl: true,
@@ -87,17 +75,3 @@ module.exports = {
   // Optional. The clock skew allowed in token validation, the default value is 300 seconds.
   clockSkew: null,
 }
-
-// The url you need to go to destroy the session with AAD
-exports.destroySessionUrl = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${LOGOUT_REDIRECT_URI}`
-
-// If you want to use the mongoDB session store for session middleware, set to true; otherwise we will use the default
-// session store provided by express-session.
-// Note that the default session store is designed for development purpose only.
-exports.useMongoDBSessionStore = USE_MONGO
-
-// If you want to use mongoDB, provide the uri here for the database.
-exports.databaseUri = MONGO_DB_URI
-
-// How long you want to keep session in mongoDB.
-exports.mongoDBSessionMaxAge = 24 * 60 * 60  // 1 day (unit is second)

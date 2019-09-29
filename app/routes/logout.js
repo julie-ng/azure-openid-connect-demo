@@ -1,10 +1,10 @@
 'use strict'
 
-const config = require('./../passport/config')
+const azureEndpoints = require('./../passport/azure-endpoints')
 
 module.exports = function (req, res) {
   req.session.destroy(function (err) {
     req.logOut()
-    res.redirect(config.destroySessionUrl)
+    res.redirect(azureEndpoints.destroySessionUrl)
   })
 }
