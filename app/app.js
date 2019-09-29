@@ -3,7 +3,7 @@
 // eslint-disable-next-line no-unused-vars
 const hbs  = require('express-handlebars')
 const express = require('express')
-const session = require('express-session')
+// const session = require('express-session')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const helmet = require('helmet')
@@ -42,8 +42,9 @@ app.use(logger('dev'))
 app.use(methodOverride())
 app.use(cookieParser())
 
-const sessionOpts = require('./middleware/session')
-app.use(session(sessionOpts))
+// const sessionOpts = require('./middleware/session')
+// app.use(session(sessionOpts))
+app.use(require('./middleware/session'))
 
 // app.use(session(sessionOpts))
 // app.use(session({

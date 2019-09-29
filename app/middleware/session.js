@@ -28,7 +28,7 @@ if (REDIS_HOST !== '') {
 	// })
 }
 
-module.exports = options
+module.exports = session(options)
 
 	// console.log('*********** options');
 	// console.log(options);
