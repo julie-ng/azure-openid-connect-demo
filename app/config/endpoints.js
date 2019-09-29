@@ -12,7 +12,11 @@ const endpoints = {
 	redirectUrl: LOGIN_REDIRECT_URI,
 
 	// The url you need to go to destroy the session with AAD
-	destroySessionUrl: `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${LOGOUT_REDIRECT_URI}`
+	destroySessionUrl: `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${LOGOUT_REDIRECT_URI}`,
+
+	// for Logins
+	failureRedirect: '/',
+	successRedirect: '/',
 }
 
 module.exports = endpoints
