@@ -3,7 +3,6 @@
 // eslint-disable-next-line no-unused-vars
 const hbs  = require('express-handlebars')
 const express = require('express')
-// const session = require('express-session')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const helmet = require('helmet')
@@ -19,39 +18,12 @@ const app = express()
 // Middleware
 // ----------------------------
 
-// const monitor = require('./middleware/monitor')
-// const forceHttps = require('./middleware/force-https')
-
-// const session = require('express-session')
-// const redis = require('redis')
-
-// const RedisStore = require('connect-redis')(session)
-// const redisClient = redis.createClient()
-// const sessionOpts = {
-//   store: new RedisStore({ client: redisClient }),
-//   secret: 'keyboard cat',
-//   resave: false,
-//   saveUninitialized: false
-// }
-
-
-
 // app.use(forceHttps)
 app.use(helmet())
 app.use(logger('dev'))
 app.use(methodOverride())
 app.use(cookieParser())
-
-// const sessionOpts = require('./middleware/session')
-// app.use(session(sessionOpts))
 app.use(require('./middleware/session'))
-
-// app.use(session(sessionOpts))
-// app.use(session({
-//   secret: 'keyboard cat',
-//   resave: true,
-//   saveUninitialized: false
-// }))
 // app.use(monitor)
 app.use(bodyParser.urlencoded({ extended : true }))
 
