@@ -76,7 +76,7 @@ app.use(bodyParser.urlencoded({ extended : true }));
 app.use(passport.initialize());
 app.use(passport.session());
 // app.use(app.router);
-app.use(express.static(path.join(__dirname,'/assets')))
+app.use('/assets/', express.static(path.join(__dirname,'/assets')))
 
 // --- Views ---
 
