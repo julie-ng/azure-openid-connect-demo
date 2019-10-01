@@ -24,8 +24,8 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/profile">Profile</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link btn btn-outline-primary" role="button" href="/logout">Logout</a>
+						<li class="nav-item pl-3">
+							<a class="nav-link btn btn-outline-light" role="button" href="/logout">Logout</a>
 						</li>
 					{{ else }}
 						<li class="nav-item">
@@ -40,13 +40,22 @@
 
 	<main role="main" class="flex-shrink-0">
 
-			{{{ body }}}
+
+		{{{ body }}}
 
 	</main>
 
-	<footer class="footer mt-auto py-3 bg-light text-muted">
+	<footer class="footer mt-auto py-3 bg-light pt-4 pb-4 text-muted">
 		<div class="container">
-			<small>Copyright 2019 Julie Ng</small>
+			<div class="row">
+				<div class="col">
+					<small>Copyright 2019 Julie Ng. Licensed under MIT.</small>
+				</div>
+				<div class="col text-right">
+					<small><a href="https://github.com/julie-ng/azure-openid-connect-demo" target="_blank">View Source on GitHub</a></small>
+				</div>
+			</div>
+
 		</div>
 	</footer>
 

@@ -2,6 +2,7 @@
 
 module.exports = function (req, res) {
   res.render('profile', {
-		user: req.user
+		user: req.user,
+		json: req.user._json
 	})
 }
