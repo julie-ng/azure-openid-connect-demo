@@ -1,0 +1,13 @@
+{{#if user}}
+	<p>UPN: {{ user._json.upn }}</p>
+	<p>Profile ID: {{ user.id }} </p>
+	<p>Full Claims</p>
+	{{{ user }}}
+	<p></p>
+	<a href="/logout">Log Out</a>
+{{else}}
+	<h2>Welcome! Please log in.</h2>
+	<a href="/login">Log In</a>
+{{/if}}
+
+

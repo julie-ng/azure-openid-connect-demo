@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>OAuth on Azure Demo</title>
+	<link rel="stylesheet" href="/public/bootstrap.css">
+	<link rel="stylesheet" href="/public/styles.css">
+</head>
+<body class="d-flex flex-column h-100">
+
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="/">Azure AD</a> <span class="navbar-div">|</span>
+			<a class="navbar-title" href="/">OpenID Connect</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav ml-auto">
+					{{#if user}}
+						<li class="nav-item">
+							<a class="nav-link" href="/profile">Profile</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link btn btn-outline-primary" role="button" href="/logout">Logout</a>
+						</li>
+					{{ else }}
+						<li class="nav-item">
+							<a class="nav-link" href="/login">Login</a>
+						</li>
+					{{/if}}
+				</ul>
+			</div>
+		</div>
+		</nav>
+	</header>
+
+	<main role="main" class="flex-shrink-0">
+
+			{{{ body }}}
+
+	</main>
+
+	<footer class="footer mt-auto py-3 bg-light text-muted">
+		<div class="container">
+			<small>Copyright 2019 Julie Ng</small>
+		</div>
+	</footer>
+
+</body>
+</html>
