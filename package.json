@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node app/server.js",
     "dev": "NODE_ENV=development nodemon -w app app/server.js",
-    "generate-keys": "node key.js",
+    "generate-keys": "node util/generate-keys.js",
     "lint": "eslint .",
     "release": "standard-version",
     "test": "jest",
