@@ -1,8 +1,8 @@
 const crypto = require('crypto-random-string')
 
 function pair () {
-	console.log('key: ' + crypto(32))
-	console.log('iv: ' + crypto(12))
+	console.log('key: ' + crypto({ length: 32 }))
+	console.log('iv: ' + crypto({ length: 12 }))
 	console.log('')
 }
 
