@@ -27,22 +27,22 @@ function verify (iss, sub, profile, jwtClaims, access_token, refresh_token, para
 
 
 	if (!profile.oid) {
-		return done(new Error("No oid found"), null);
+		return done(new Error("No oid found"), null)
 	}
 	// asynchronous verification, for effect...
 	process.nextTick(function () {
-		findByOid(profile.oid, function(err, user) {
+		findByOid(profile.oid, function (err, user) {
 			if (err) {
-				return done(err);
+				return done(err)
 			}
 			if (!user) {
 				// "Auto-registration"
-				users.push(profile);
-				return done(null, profile);
+				users.push(profile)
+				return done(null, profile)
 			}
-			return done(null, user);
-		});
-	});
+			return done(null, user)
+		})
+	})
 }
 
 function setup () {
@@ -56,7 +56,7 @@ function setup () {
 		})
 	})
 
-	passport.use(new OIDCStrategy(oidcConfig, verify));
+	passport.use(new OIDCStrategy(oidcConfig, verify))
 }
 
 exports.setup = setup
