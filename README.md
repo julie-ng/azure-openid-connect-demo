@@ -12,3 +12,9 @@ CLIENT_SECRET=
 APP_ID=
 …
 ```
+
+### Demo User
+
+User
+alice@aadoauthdemo.onmicrosoft.com
+WalterGropius5
