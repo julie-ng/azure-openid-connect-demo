@@ -45,10 +45,22 @@ body {
 	}
 }
 
-.navbar {
+.navbar-dark .navbar-nav {
 	.btn-outline-light {
-		&:link, &:visited {
+		&:link, :visted {
 			color: #fff;
 		}
+		&:hover, &:active {
+			color: var(--primary);
+		}
+	}
+}
+
+td {
+	word-break: break-word;
+	overflow-wrap: break-word;
+
+	&:first-child {
+		min-width: 200px;
 	}
 }
