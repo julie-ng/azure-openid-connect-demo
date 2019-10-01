@@ -28,13 +28,13 @@ stages:
       - script: npm ci && npm run lint
         displayName: Lint Code
 
-    - job: UnitTests
-      displayName: Unit Tests
-      pool:
-        vmImage: 'ubuntu-latest'
-      steps:
-      - script: npm ci && npm run test
-        displayName: Run Tests
+    # - job: UnitTests
+    #   displayName: Unit Tests
+    #   pool:
+    #     vmImage: 'ubuntu-latest'
+    #   steps:
+    #   - script: npm ci && npm run test
+    #     displayName: Run Tests
 
 # ----------------------------
 # Docker Image: Build and Push
