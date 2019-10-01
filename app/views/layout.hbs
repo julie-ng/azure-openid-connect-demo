@@ -10,7 +10,7 @@
 </head>
 <body class="d-flex flex-column h-100">
 
-	<header class="mb-4">
+	<header>
 		<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
 		<div class="container">
 			<a class="navbar-brand" href="/">Azure AD</a> <span class="navbar-div">|</span>
@@ -29,7 +29,7 @@
 						</li>
 					{{ else }}
 						<li class="nav-item">
-							<a class="nav-link btn btn-outline-light" role="button" href="/login">Login</a>
+							<a class="nav-link" href="/login">Login</a>
 						</li>
 					{{/if}}
 				</ul>
@@ -39,9 +39,9 @@
 	</header>
 
 	<main role="main" class="flex-shrink-0">
-		<div class="container">
+
 			{{{ body }}}
-		</div>
+
 	</main>
 
 	<footer class="footer mt-auto py-3 bg-light text-muted">

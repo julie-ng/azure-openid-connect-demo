@@ -7,6 +7,10 @@
 
 // Configuration
 
+// Microsoft Colors
+$primary: #0078d7;
+$secondary: #7FBA00;
+
 @import "./../../node_modules/bootstrap/scss/functions";
 @import "./../../node_modules/bootstrap/scss/variables";
 @import "./../../node_modules/bootstrap/scss/mixins";
@@ -24,6 +28,8 @@ $container-max-widths: (
   md: 720px,
   lg: 960px
 );
+
+
 
 // Layout & components
 
