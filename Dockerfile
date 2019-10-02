@@ -12,6 +12,5 @@ RUN npm install --production
 
 COPY ["app/", "/workspace/app/"]
 
-USER node
 EXPOSE ${PORT:-80}
 CMD ["npm", "start"]
