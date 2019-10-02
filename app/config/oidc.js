@@ -2,7 +2,6 @@
 
 const CLIENT_ID     = process.env.CLIENT_ID || ''
 const CLIENT_SECRET = process.env.CLIENT_SECRET || ''
-// const APP_ID        = process.env.APP_ID || ''
 
 const COOKIE_KEY_1  = process.env.COOKIE_KEY_1 || 'changeme'
 const COOKIE_IV_1   = process.env.COOKIE_IV_1 || 'changeme'
