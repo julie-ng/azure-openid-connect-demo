@@ -1,5 +1,7 @@
 # OpenID Connect and Azure AD - Demo App
 
+[![Build Status](https://dev.azure.com/julie-msft/Public%20Demos/_apis/build/status/julie-ng.azure-openid-connect-demo?branchName=master)](https://dev.azure.com/julie-msft/Public%20Demos/_build/latest?definitionId=4&branchName=master)
+
 This demo Node.js app shows how to use passport.js to implement OpenID Connect against Azure Active Directory (AD)
 
 [![OpenID Connect Demo Preview](./images/demo-preview.png)](https://oidc-demo.azurewebsites.net/)
