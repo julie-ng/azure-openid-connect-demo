@@ -1,7 +1,5 @@
 'use strict'
 
-// eslint-disable-next-line no-unused-vars
-const hbs  = require('express-handlebars')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -10,7 +8,6 @@ const logger = require('morgan')
 const passport = require('passport')
 const path = require('path')
 const methodOverride = require('method-override')
-const sassMiddleware = require('node-sass-middleware')
 
 const app = express()
 
@@ -33,22 +30,6 @@ app.use(bodyParser.urlencoded({ extended : true }))
 require('./config/strategy').setup()
 app.use(passport.initialize())
 app.use(passport.session())
-
-
-// Web HTML & CSS
-// ----------------------------
-
-app.use(sassMiddleware({
-  src: path.join(__dirname, '/scss'),
-  dest: path.join(__dirname, '/public'),
-  debug: true,
-  outputStyle: 'compressed',
-  prefix:  '/public'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
-}))
-app.use('/public', express.static(path.join(__dirname, '/public')))
-app.set('views', path.join(__dirname, '/views'))
-app.set('view engine', 'hbs')
-app.set('view options', { layout: 'layout' })
 
 
 // Routes
