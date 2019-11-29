@@ -39,6 +39,7 @@ const router = require('./routes')
 const isProtected = require('./middleware/is-protected')
 
 app.get('/', (req, res) => res.status(401).send('401 - Unauthorized'))
+app.get('/health', router.healthcheck)
 app.get('/login', router.login)
 app.get('/logout', router.logout)
 app.get('/auth/openid/return', router.openIDReturn)
