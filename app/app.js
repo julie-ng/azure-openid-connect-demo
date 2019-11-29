@@ -38,7 +38,7 @@ app.use(passport.session())
 const router = require('./routes')
 const isProtected = require('./middleware/is-protected')
 
-app.get('/', router.root)
+app.get('/', (req, res) => res.status(401).send('401 - Unauthorized'))
 app.get('/login', router.login)
 app.get('/logout', router.logout)
 app.get('/auth/openid/return', router.openIDReturn)
