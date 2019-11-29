@@ -48,7 +48,7 @@ app.get('/profile', isProtected, router.profile)
 
 // 404 page
 app.use((req, res, next) => {
-  res.status(404).send('Oops - page not found.')
+  res.status(404).send('404 - Page not found')
 })
 
 module.exports = app
