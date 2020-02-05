@@ -1,6 +1,20 @@
+# Build numbering format
+name: $(BuildID)
+
 trigger:
-  - master
-  - feat/*
+  branches:
+    include:
+    - master
+    - feat/*
+
+schedules:
+- cron: "0 0 * * Mon"
+  displayName: Weekly midnight build
+  always: true
+  branches:
+    include:
+    - master
+    - releases/*
 
 variables:
   azureSubscriptionEndpoint: $(service-connection-name)
@@ -28,13 +42,6 @@ stages:
       - script: npm ci && npm run lint
         displayName: Lint Code
 
-    # - job: UnitTests
-    #   displayName: Unit Tests
-    #   pool:
-    #     vmImage: 'ubuntu-latest'
-    #   steps:
-    #   - script: npm ci && npm run test
-    #     displayName: Run Tests
 
 # ----------------------------
 # Docker Image: Build and Push
