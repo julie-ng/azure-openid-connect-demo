@@ -17,11 +17,13 @@ schedules:
     - releases/*
 
 variables:
-  azureSubscriptionEndpoint: $(service-connection-name)
-  azureContainerRegistry: $(container-registry-host)
-  registryName: $(azureContainerRegistry)/$(Build.Repository.Name)
-  imageTag: $(registryName):$(Build.BuildId)-$(Build.SourceVersion)
-  appName: $(app-name)
+  - group: azure-demos-config
+  - name: repository
+    value: $(registry-host)/$(registry-namespace)
+  - name: image-name
+    value: $(repository)/$(app-name)
+  - name: image-tag
+    value: $(Build.BuildId)-$(Build.SourceVersion)
 
 stages:
 - stage: Tests
@@ -54,15 +56,15 @@ stages:
       displayName: Build and Push Image
       steps:
 
-      - script: docker build --tag $(imageTag) .
+      - script: docker build --tag $(image-name):$(image-tag) .
         displayName: 'Docker: Build and tag image'
 
       - task: Docker@1
         displayName: 'Push an image'
         inputs:
-          azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
-          azureContainerRegistry: $(azureContainerRegistry)
-          imageName: $(imageTag)
+          azureSubscriptionEndpoint: $(registry-service-connection)
+          azureContainerRegistry: $(registry-host)
+          imageName: $(image-name):$(image-tag)
           command: push
 
 # ----------------------------
@@ -79,6 +81,6 @@ stages:
       displayName: Deploy container as Azure Web App
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) # (master branch and succesful builds only)
       inputs:
-        appName: $(appName)
-        azureSubscription: $(azureSubscriptionEndpoint)
-        imageName: $(imageTag)
+        appName: $(appservice-name)
+        azureSubscription: $(appservice-service-connection)
+        imageName: $(image-name):$(image-tag)
