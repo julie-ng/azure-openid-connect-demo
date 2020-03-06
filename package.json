@@ -1,12 +1,13 @@
 {
-  "name": "oauth-demo-backend",
-  "version": "0.0.0",
+  "name": "azure-openid-connect-demo",
+  "version": "1.0.0",
   "author": "Julie Ng <me@julie.io>",
   "license": "MIT",
-  "description": "A multipurpose dummy node.js app for cloud architecture demos",
+  "private": true,
+  "description": "OpenID Connect demo with Azure Active Directory",
   "repository": {
     "type": "git",
-    "url": "https://github.com/julie-ng/azure-nodejs-dummy"
+    "url": "https://github.com/julie-ng/azure-openid-connect-demo"
   },
   "scripts": {
     "start": "node app/server.js",
