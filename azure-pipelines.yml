@@ -98,7 +98,7 @@ stages:
 
       - template: steps/docker-build-push.yml@templates
         parameters:
-          registryConnectionName: $(lib-var-arm-connection)
+          registryConnectionName: $(lib-var-registry-connection)
           imageName: $(image-name)
           tagsAsMultilineString: |
             $(image-tag)
