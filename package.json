@@ -15,7 +15,8 @@
     "generate-keys": "node util/generate-keys.js",
     "lint": "eslint .",
     "release": "standard-version",
-    "preflight": "NODE_ENV=test npm audit && npm run lint"
+    "preflight": "NODE_ENV=test npm audit && npm run lint",
+    "my-version": "node -e \"console.log(require('./package.json').version)\""
   },
   "dependencies": {
     "applicationinsights": "^1.4.2",
