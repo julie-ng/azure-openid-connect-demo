@@ -126,13 +126,13 @@ stages:
 
   - job: deploy_master
     displayName: 'Deploy (master)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/refactor/pipeline'))
     steps:
       - template: steps/deploy-app-service.yml@templates
         parameters:
           ARMConnectionName: $(lib-var-arm-connection)
           dockerImage: $(image-name-with-registry):$(image-tag)
           appName: $(app-name)
+          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/refactor/pipeline')) # TODO: update library
 
 
   # - job: deploy_release
