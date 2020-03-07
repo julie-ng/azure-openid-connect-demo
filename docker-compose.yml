@@ -5,8 +5,10 @@ services:
     env_file:
       - .env
     environment:
-      REDIS_HOST: redis
       PORT: 3000
+      # REDIS_HOST: redis
+      # REDIS_PORT: '6379'
+      # REDIS_PASSWORD: ''
     depends_on:
       - redis
     ports:
@@ -14,6 +16,6 @@ services:
     volumes:
       - ./app:/workspace/app
   redis:
-    image: redis:latest
+    image: redis:4 # Azure cache version
     expose:
       - '6379'
