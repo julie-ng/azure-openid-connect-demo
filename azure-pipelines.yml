@@ -21,7 +21,7 @@ resources:
       type: github
       name: julie-ng/azure-pipelines-templates
       endpoint: julie-ng # required, even if public repo
-      ref: refs/tags/v1.0
+      ref: refs/tags/v1.1.0
 
 # Schedule
 # ---------
@@ -102,7 +102,7 @@ stages:
 
       - template: steps/docker-build-push.yml@templates
         parameters:
-          registryConnectionName: $(lib-var-registry-connection)
+          registryConnectionName: $(var-registry-connection)
           imageName: $(image-name)
           tagsAsMultilineString: |
             $(image-tag)
@@ -112,7 +112,7 @@ stages:
         displayName: 'Lock release image, preventing delete'
         condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
         inputs:
-          azureSubscription: $(lib-var-arm-connection)
+          azureSubscription: $(var-arm-connection)
           scriptType: bash
           scriptLocation: inlineScript
           inlineScript: |
@@ -130,26 +130,27 @@ stages:
 
   - job: deploy_master
     displayName: 'Deploy (master)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) # TODO: update library
     steps:
       - template: steps/deploy-app-service.yml@templates
         parameters:
-          ARMConnectionName: $(lib-var-arm-connection)
+          ARMConnectionName: $(var-arm-connection)
+          dockerImage: $(image-name-with-registry):$(image-tag)
+          appName: $(app-name)-dev # with `-dev` suffix
+
+
+  - job: deploy_release
+    displayName: 'Deploy (release)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
+    steps:
+      # Override image tag with versioned release tag
+      - template: steps/set-custom-variable.yml@templates
+        parameters:
+          variableName: image-tag
+          command: 'npm run --silent my-version'
+
+      - template: steps/deploy-app-service.yml@templates
+        parameters:
+          ARMConnectionName: $(var-arm-connection)
           dockerImage: $(image-name-with-registry):$(image-tag)
           appName: $(app-name)
-          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/refactor/pipeline')) # TODO: update library
-
-
-  # - job: deploy_release
-  #   displayName: 'Deploy (release)'
-  #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
-  #   steps:
-  #     - template: steps/set-custom-variable.yml@templates
-  #       parameters:
-  #         variableName: image-tag
-  #         command: 'npm run --silent my-version'
-
-  #     - template: steps/deploy-app-service.yml@templates
-  #       parameters:
-  #         ARMConnectionName: $(appservice-service-connection)
-  #         appName: $(app-services-name)
-  #         dockerImage: $(image-name-with-registry):$(image-tag)
