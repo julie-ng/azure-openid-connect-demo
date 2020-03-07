@@ -1,6 +1,6 @@
 {
   "name": "azure-openid-connect-demo",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Julie Ng <me@julie.io>",
   "license": "MIT",
   "private": true,

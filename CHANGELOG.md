@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/julie-ng/azure-openid-connect-demo/compare/v1.1.0...v1.1.1) (2020-03-07)
+
+
+### Bug Fixes
+
+* **azure-pipeline:** build release branch ([4357ecd](https://github.com/julie-ng/azure-openid-connect-demo/commit/4357ecd9d99e4f3be72246f7ffd39208ae32129b))
+
 ## [1.1.0](https://github.com/julie-ng/azure-openid-connect-demo/compare/v1.0.0...v1.1.0) (2020-03-07)
 
 
