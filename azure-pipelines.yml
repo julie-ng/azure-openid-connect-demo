@@ -21,7 +21,7 @@ resources:
       type: github
       name: julie-ng/azure-pipelines-templates
       endpoint: julie-ng # required, even if public repo
-      ref: refs/tags/v1.1.0
+      ref: refs/tags/v1.1.1
 
 # Schedule
 # ---------
