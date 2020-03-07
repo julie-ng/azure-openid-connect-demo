@@ -70,8 +70,12 @@ stages:
         vmImage: 'ubuntu-latest'
       steps:
       - script: npm audit
-        displayName: Audit Dependencies
+        displayName: Audit Dependencies (all)
         continueOnError: true
+
+      - script: npm audit --production
+        displayName: Audit Dependencies (prod-only)
+        continueOnError: false
 
     - job: Linter
       pool:
