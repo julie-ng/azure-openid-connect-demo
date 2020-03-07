@@ -1,11 +1,30 @@
 # Build numbering format
 name: $(BuildID)
 
+# Trigger
+# -------
+
 trigger:
   branches:
     include:
     - master
     - feat/*
+    - refactor/*
+
+
+# Shared Templates
+# ----------------
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: julie-ng/azure-pipelines-templates
+      endpoint: julie-ng # required, even if public repo
+      ref: refs/tags/v1.1.1
+
+# Schedule
+# ---------
 
 schedules:
 - cron: "0 0 * * Mon"
@@ -16,16 +35,33 @@ schedules:
     - master
     - releases/*
 
+
+# Variables
+# ---------
+
 variables:
   - group: azure-demos-config
-  - name: repository
-    value: $(registry-host)/$(registry-namespace)
-  - name: image-name
-    value: $(repository)/$(app-name)
+
+  - name: app-name
+    value: oidc-demo
+
   - name: image-tag
-    value: $(Build.BuildId)-$(Build.SourceVersion)
+    value: 'dev'
+
+  - name: image-name
+    value: $(lib-var-registry-namespace)/$(app-name)
+
+  - name: image-name-with-registry
+    value: $(lib-var-registry-host)/$(image-name)
+
+
+# Stages
+# ---------
 
 stages:
+
+# --- Stage: Test ---
+
 - stage: Tests
   displayName: 'Test (Node.js)'
   jobs:
@@ -34,8 +70,12 @@ stages:
         vmImage: 'ubuntu-latest'
       steps:
       - script: npm audit
-        displayName: Audit Dependencies
+        displayName: Audit Dependencies (all)
         continueOnError: true
+
+      - script: npm audit --production
+        displayName: Audit Dependencies (prod-only)
+        continueOnError: false
 
     - job: Linter
       pool:
@@ -45,42 +85,72 @@ stages:
         displayName: Lint Code
 
 
-# ----------------------------
-# Docker Image: Build and Push
-# ----------------------------
+# --- Stage: Build and Push Docker image ---
 
 - stage: BuildImage
   displayName: 'Build (Docker)'
   jobs:
-    - job: build_and_push_image
-      displayName: Build and Push Image
+    - job: build_and_push
+      displayName: 'Build and Push Image'
+
       steps:
+      - template: steps/set-custom-variable.yml@templates
+        parameters:
+          variableName: image-tag
+          command: 'npm run --silent my-version'
+          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
 
-      - script: docker build --tag $(image-name):$(image-tag) .
-        displayName: 'Docker: Build and tag image'
+      - template: steps/docker-build-push.yml@templates
+        parameters:
+          registryConnectionName: $(var-registry-connection)
+          imageName: $(image-name)
+          tagsAsMultilineString: |
+            $(image-tag)
 
-      - task: Docker@1
-        displayName: 'Push an image'
+      # lock release images
+      - task: AzureCLI@2
+        displayName: 'Lock release image, preventing delete'
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
         inputs:
-          azureSubscriptionEndpoint: $(registry-service-connection)
-          azureContainerRegistry: $(registry-host)
-          imageName: $(image-name):$(image-tag)
-          command: push
+          azureSubscription: $(var-arm-connection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+              az --version
+              az acr repository update \
+                --name $(lib-var-acr-name) --image $(image-name):$(image-tag) \
+                --write-enabled false
 
-# ----------------------------
-# Deploy to Azure App Services
-# ----------------------------
+
+# --- Stage: deploy to Azure App Services ---
 
 - stage: DeployImage
   displayName: Deploy
   jobs:
-  - job: deploy_image
-    displayName: 'Deploy Image (master)'
+
+  - job: deploy_master
+    displayName: 'Deploy (master)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) # TODO: update library
     steps:
-    - task: AzureWebAppContainer@1
-      displayName: Deploy container as Azure Web App
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) # (master branch and succesful builds only)
-      inputs:
-        appName: $(appservice-name)
-        azureSubscription: $(appservice-service-connection)
-        imageName: $(image-name):$(image-tag)
+      - template: steps/deploy-app-service.yml@templates
+        parameters:
+          ARMConnectionName: $(var-arm-connection)
+          dockerImage: $(image-name-with-registry):$(image-tag)
+          appName: $(app-name)-dev # with `-dev` suffix
+
+
+  - job: deploy_release
+    displayName: 'Deploy (release)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
+    steps:
+      # Override image tag with versioned release tag
+      - template: steps/set-custom-variable.yml@templates
+        parameters:
+          variableName: image-tag
+          command: 'npm run --silent my-version'
+
+      - template: steps/deploy-app-service.yml@templates
+        parameters:
+          ARMConnectionName: $(var-arm-connection)
+          dockerImage: $(image-name-with-registry):$(image-tag)
+          appName: $(app-name)
