@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/julie-ng/azure-openid-connect-demo/compare/v1.0.0...v1.1.0) (2020-03-07)
+
+
+### Features
+
+* **azure-pipeline:** use yaml templates, introduce dev vs prod ([d8f6b7d](https://github.com/julie-ng/azure-openid-connect-demo/commit/d8f6b7d044fe4ac8de27838154f78e1cadcb94cc))
+
+
+### Bug Fixes
+
+* **redis:** explicitly connect with TLS ([53f96cb](https://github.com/julie-ng/azure-openid-connect-demo/commit/53f96cb4c90c3d22263e61bf0706802da80171b8))
+
 ## 1.0.0 (2019-10-09)
 
 _First Release_
