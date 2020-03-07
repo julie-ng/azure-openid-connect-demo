@@ -12,11 +12,8 @@ Try it out at **[https://oidc-demo.azurewebsites.net](https://oidc-demo.azureweb
 
 | Name | Username | Password | 
 |:--|:--|:--|
-| Alice Samson | alice@aadoauthdemo.onmicrosoft.com | WalterGropius5 |
-| Phoebe Buffay | phoebe@aadoauthdemo.onmicrosoft.com | WalterGropiusStrasse5 |
-| Rachel Gabor | rachel@aadoauthdemo.onmicrosoft.com | WalterGropiusStrasse5 |
-| Ross Smith | ross@aadoauthdemo.onmicrosoft.com | WalterGropiusStrasse5 |
-| Joey Taylor | joey@aadoauthdemo.onmicrosoft.com | WalterGropiusStrasse5 |
+| Alice Samson | alice@aadoauthdemo.onmicrosoft.com | `WalterGropius5!` |
+| Joey Taylor | joey@aadoauthdemo.onmicrosoft.com | `WalterGropiusStrasse5!` |
 
 
 ## Local Demo
@@ -27,7 +24,7 @@ First clone this repository
 https://github.com/julie-ng/azure-openid-connect-demo
 ```
 
-### Configure
+### Configure Credentials as Environment Variables
 
 If you want to try the demo locally you need to [register an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal) with your Azure AD tenant. Once you've done that, note the client ID and secret.
 
@@ -40,9 +37,16 @@ PORT=3000
 TENANT_ID=
 CLIENT_ID=
 CLIENT_SECRET=
-APP_ID=
 …
 ```
+
+### Configuring OAuth Client
+
+In your AAD "App Registration", aka OAuth Client, make sure you enable the "ID Token", which our app expects as defined in [`config/oidc.js`](./config/oidc.js)
+
+![Note: enable ID Token](./images/aad-app-token-types.png)
+
+Note that despite the "Implicit grant" heading, this demo does _**not**_ use implicit flow, but rather authorization code flow using client credentials sent via backend channels.
 
 ### Generate Secrets for Session
 
@@ -57,3 +61,5 @@ Once you've configured everything, start up the nodejs application and redis ser
 ```
 docker-compose up --build
 ```
+
+
