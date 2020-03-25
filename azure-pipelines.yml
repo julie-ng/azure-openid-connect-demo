@@ -22,7 +22,7 @@ resources:
       type: github
       name: julie-ng/azure-pipelines-templates
       endpoint: julie-ng # required, even if public repo
-      ref: refs/tags/v1.1.1
+      ref: refs/tags/v1.2.0
 
 # Schedule
 # ---------
@@ -102,7 +102,7 @@ stages:
       steps:
       - template: steps/set-custom-variable.yml@templates
         parameters:
-          condition: ${{ variables['is-release']) }}
+          condition: ${{ variables['is-release'] }}
           variableName: image-tag
           command: 'npm run --silent my-version'
 
