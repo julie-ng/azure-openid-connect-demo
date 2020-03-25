@@ -24,6 +24,7 @@ module.exports = (req, res) => {
 }
 
 function _addEnvVar (body, key, varname) {
+	// eslint-disable-next-line no-prototype-builtins
 	if (process.env.hasOwnProperty(varname)) {
 		body[key] = process.env[varname]
 	}
