@@ -55,6 +55,11 @@ variables:
   - name: image-name-with-registry
     value: $(lib-var-registry-host)/$(image-name)
 
+  - name: is-dev
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/master') }}
+
+  - name: is-release
+    value: ${{ and(eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule')) }}
 
 # Stages
 # ---------
@@ -99,7 +104,7 @@ stages:
         parameters:
           variableName: image-tag
           command: 'npm run --silent my-version'
-          condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
+          condition: ${{ or(variables['is-dev'], variables['is-release']) }}
 
       - template: steps/docker-build-push.yml@templates
         parameters:
@@ -111,7 +116,7 @@ stages:
       # lock release images
       - task: AzureCLI@2
         displayName: 'Lock release image, preventing delete'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
+        condition: ${{ variables['is-release'] }}
         inputs:
           azureSubscription: $(lib-var-az-acr-connection)
           scriptType: bash
@@ -131,7 +136,7 @@ stages:
 
   - job: deploy_master
     displayName: 'Deploy (master)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) # TODO: update library
+    condition: ${{ variables['is-dev'] }}
     steps:
       - template: steps/deploy-app-service.yml@templates
         parameters:
@@ -142,7 +147,7 @@ stages:
 
   - job: deploy_release
     displayName: 'Deploy (release)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'), ne(variables['Build.Reason'], 'Schedule'))
+    condition: ${{ variables['is-release'] }}
     steps:
       # Override image tag with versioned release tag
       - template: steps/set-custom-variable.yml@templates
