@@ -102,12 +102,13 @@ stages:
       steps:
       - template: steps/set-custom-variable.yml@templates
         parameters:
+          condition: ${{ variables['is-release']) }}
           variableName: image-tag
           command: 'npm run --silent my-version'
-          condition: ${{ or(variables['is-dev'], variables['is-release']) }}
 
       - template: steps/docker-build-push.yml@templates
         parameters:
+          condition: ${{ or(variables['is-dev'], variables['is-release']) }}
           registryConnectionName: $(var-registry-connection)
           imageName: $(image-name)
           tagsAsMultilineString: |
