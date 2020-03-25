@@ -74,7 +74,7 @@ stages:
         displayName: Audit Dependencies (all)
         continueOnError: true
 
-      - script: npm audit --production
+      - script: npm audit --production --audit-level=high
         displayName: Audit Dependencies (prod-only)
         continueOnError: false
 
