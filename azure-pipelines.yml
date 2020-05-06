@@ -75,11 +75,11 @@ stages:
       pool:
         vmImage: 'ubuntu-latest'
       steps:
-      - script: npm audit
+      - script: npm audit --audit-level moderate
         displayName: Audit Dependencies (all)
         continueOnError: true
 
-      - script: npm audit --production --audit-level=high
+      - script: npm audit --production --audit-level high
         displayName: Audit Dependencies (prod-only)
         continueOnError: false
 
