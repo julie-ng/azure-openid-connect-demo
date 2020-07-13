@@ -45,7 +45,7 @@
     "mem": ">=4.0.0",
     "nodemon": "^2.0.2",
     "request": "^2.88.0",
-    "standard-version": "^7.1.0"
+    "standard-version": "^8.0.1"
   },
   "engines": {
     "node": "^10.12.0",
